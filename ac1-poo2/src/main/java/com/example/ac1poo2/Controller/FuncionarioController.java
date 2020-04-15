@@ -27,8 +27,22 @@ public class FuncionarioController {
 
     @PostMapping("/salvar")
     public String salvar(@ModelAttribute Funcionario funcionario){
-        service.salvar(funcionario);
-        return "redirect:/funcionarios";
+        
+        if(validar(funcionario)){
+            service.salvar(funcionario);
+            return "redirect:/funcionarios";
+        } else{
+            return "erro";
+        }
+    }
+
+    public boolean validar(Funcionario funcionario){
+        if(funcionario.getNome() == null || funcionario.getCargo() == null || funcionario.getSalario() == null || funcionario.getSetor() == null)
+            return false;
+        else if(funcionario.getNome().trim().length() == 0  || funcionario.getCargo().trim().length() == 0  || funcionario.getSetor().trim().length() == 0 )
+            return false;
+        else
+            return true;
     }
 
 }
